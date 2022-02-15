@@ -46,7 +46,10 @@ class Calculadora(QMainWindow):
         self.create_btn(QPushButton('0'), 4, 1, 1, 1)
         self.create_btn(QPushButton(''), 4, 2, 1, 1)
         self.create_btn(QPushButton('*'), 4, 3, 1, 1)
-        self.create_btn(QPushButton('='), 4, 4, 1, 1)
+        self.create_btn(
+            QPushButton('='), 4, 4, 1, 1,
+            self.eval_equal
+        )
 
 
         self.setCentralWidget(self.cw)
@@ -64,7 +67,13 @@ class Calculadora(QMainWindow):
 
         btn.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
 
-
+    def eval_equal(self):
+        try:
+            self.display.setText(
+                str(eval(self.display.text()))
+            )
+        except Exception as e:
+            pass
 if __name__ == '__main__':
     qt = QApplication(sys.argv)
     calc = Calculadora()
