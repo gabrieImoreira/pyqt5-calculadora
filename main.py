@@ -22,7 +22,8 @@ class Calculadora(QMainWindow):
         self.create_btn(QPushButton('+'), 1, 3, 1, 1)
         self.create_btn(
             QPushButton('C'), 1, 4, 1, 1,
-            lambda : self.display.setText('')
+            lambda : self.display.setText(''),
+            'background:#FF0000; color: #FFF; font-weight:900'
         )
 
         self.create_btn(QPushButton('4'), 2, 0, 1, 1)
@@ -33,7 +34,8 @@ class Calculadora(QMainWindow):
             QPushButton('<-'), 2, 4, 1, 1,
             lambda: self.display.setText(
                 self.display.text()[:-1]
-            )
+            ),
+        'background:#FF0000; color: #FFF; font-weight:900'
         )
 
         self.create_btn(QPushButton('1'), 3, 0, 1, 1)
@@ -54,7 +56,7 @@ class Calculadora(QMainWindow):
 
         self.setCentralWidget(self.cw)
 
-    def create_btn(self, btn, row, col, rowspan, colspan, funcao=None):
+    def create_btn(self, btn, row, col, rowspan, colspan, funcao=None, style=None):
         self.grid.addWidget(btn, row, col, rowspan, colspan)
         if not funcao:
             btn.clicked.connect(
@@ -65,6 +67,9 @@ class Calculadora(QMainWindow):
         else:
             btn.clicked.connect(funcao)
 
+        if style:
+            btn.setStyleSheet(style)
+
         btn.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
 
     def eval_equal(self):
@@ -73,7 +78,7 @@ class Calculadora(QMainWindow):
                 str(eval(self.display.text()))
             )
         except Exception as e:
-            pass
+            self.display.setText('Conta inválida')
 if __name__ == '__main__':
     qt = QApplication(sys.argv)
     calc = Calculadora()
